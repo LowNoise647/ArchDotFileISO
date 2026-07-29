@@ -1,0 +1,38 @@
+[module]
+id = "lnos-gaming"
+version = "1.0.0"
+name = "LNOS Gaming Module"
+description = "Optimizations for gaming: GameMode, MangoHud, Steam, Proton, Wine"
+license = "MIT"
+author = "LNOS Team"
+
+[dependencies]
+modules = ["lnos-hyprland", "lnos-base"]
+packages = [
+    "steam",
+    "gamemode",
+    "lib32-gamemode",
+    "mangohud",
+    "lib32-mangohud",
+    "lutris",
+    "wine",
+    "winetricks",
+    "proton-ge-custom",
+    "gamescope",
+    "vkbasalt",
+    "lib32-vkbasalt",
+]
+
+[conflicts]
+modules = []
+packages = []
+
+[config]
+game_mode.enabled = true
+mangohud.enabled = true
+mangohud.show_fps = true
+mangohud.show_temp = true
+steam.runtime = "native"
+
+[arch]
+supported = ["x86_64"]

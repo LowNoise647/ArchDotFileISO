@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# NVIDIA GPU optimization
+cat > /etc/modprobe.d/nvidia.conf << 'EOF'
+options nvidia_drm modeset=1 fbdev=1
+options nvidia NVreg_UsePageAttributeTable=1
+options nvidia NVreg_InitializeSystemMemoryAllocations=0
+options nvidia NVreg_DynamicPowerManagement=0x02
+EOF
+
+cat > /etc/environment.d/nvidia.conf << 'EOF'
+LIBVA_DRIVER_NAME=nvidia
+GBM_BACKEND=nvidia-drm
+__GLX_VENDOR_LIBRARY_NAME=nvidia
+ENABLE_VKBASALT=1
+WLR_NO_HARDWARE_CURSORS=1
+EOF
+
+echo "NVIDIA GPU optimized"

@@ -1,0 +1,19 @@
+[module]
+id = "lnos-docker"
+version = "1.0.0"
+name = "LNOS Docker Module"
+description = "Docker, docker-compose, containerd"
+license = "MIT"
+author = "LNOS Team"
+
+[dependencies]
+modules = ["lnos-dev"]
+packages = [
+    "docker",
+    "docker-compose",
+    "containerd",
+    "runc",
+]
+
+[arch]
+supported = ["x86_64"]

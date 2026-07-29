@@ -1,0 +1,21 @@
+[module]
+id = "lnos-storage"
+version = "1.0.0"
+name = "LNOS Storage Module"
+description = "Btrfs, LUKS2, Timeshift, snapshots"
+license = "MIT"
+author = "LNOS Team"
+
+[dependencies]
+modules = ["lnos-base"]
+packages = [
+    "btrfs-progs",
+    "timeshift",
+    "snap-pac",
+    "snapper",
+    "cryptsetup",
+    "lvm2",
+]
+
+[arch]
+supported = ["x86_64"]

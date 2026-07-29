@@ -1,0 +1,40 @@
+[module]
+id = "lnos-hyprland"
+version = "1.0.0"
+name = "LNOS Hyprland Desktop"
+description = "Hyprland, Waybar, Rofi, Dunst, lockscreen"
+license = "MIT"
+author = "LNOS Team"
+
+[dependencies]
+modules = ["lnos-base", "lnos-base-devel"]
+packages = [
+    "hyprland",
+    "waybar",
+    "rofi",
+    "rofi-emoji",
+    "dunst",
+    "hyprpaper",
+    "hyprlock",
+    "hypridle",
+    "wlogout",
+    "grimblast",
+    "slurp",
+    "wl-clipboard",
+    "cliphist",
+    "polkit-gnome",
+    "xdg-desktop-portal-hyprland",
+]
+
+[conflicts]
+modules = []
+packages = []
+
+[config]
+hyprland.monitor = "eDP-1,1920x1080@60,0x0,1"
+hyprland.keyboard_layout = "es"
+waybar.position = "top"
+rofi.theme = "catppuccin-mocha"
+
+[arch]
+supported = ["x86_64"]

@@ -1,0 +1,25 @@
+[module]
+id = "lnos-audio"
+version = "1.0.0"
+name = "LNOS Audio Module"
+description = "PipeWire, WirePlumber, ALSA, PulseAudio compat"
+license = "MIT"
+author = "LNOS Team"
+
+[dependencies]
+modules = ["lnos-base"]
+packages = [
+    "pipewire",
+    "lib32-pipewire",
+    "pipewire-alsa",
+    "pipewire-jack",
+    "pipewire-pulse",
+    "wireplumber",
+    "alsa-utils",
+    "alsa-firmware",
+    "pavucontrol",
+    "helvum",
+]
+
+[arch]
+supported = ["x86_64"]

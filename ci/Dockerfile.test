@@ -1,0 +1,12 @@
+FROM archlinux:latest
+
+RUN pacman -Syu --noconfirm && \
+    pacman -S --noconfirm base-devel rust cargo git python python-pip
+
+WORKDIR /lnos
+COPY . .
+
+RUN cargo build --release && \
+    cargo test
+
+CMD ["/bin/bash"]

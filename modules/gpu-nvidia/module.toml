@@ -1,0 +1,27 @@
+[module]
+id = "lnos-gpu-nvidia"
+version = "1.0.0"
+name = "LNOS NVIDIA GPU Drivers"
+description = "NVIDIA GPU drivers: nvidia-open, CUDA, VA-API"
+license = "MIT"
+author = "LNOS Team"
+
+[dependencies]
+modules = ["lnos-base"]
+packages = [
+    "nvidia-open",
+    "nvidia-utils",
+    "lib32-nvidia-utils",
+    "egl-wayland",
+    "libva-nvidia-driver",
+    "vulkan-icd-loader",
+    "lib32-vulkan-icd-loader",
+    "cuda",
+    "nvidia-settings",
+]
+
+[conflicts]
+modules = ["lnos-gpu-amd"]
+
+[arch]
+supported = ["x86_64"]

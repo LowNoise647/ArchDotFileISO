@@ -1,0 +1,18 @@
+[workspace]
+resolver = "2"
+members = [
+    "src/liblnos",
+    "src/lnos-mod",
+    "src/lnos-config",
+    "src/lnos-welcome",
+    "src/lnos-software",
+    "src/tools/lnos-bench",
+    "src/tools/lnos-backup",
+    "src/tools/lnos-recovery",
+    "src/tools/lnos-firstrun",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "MIT"

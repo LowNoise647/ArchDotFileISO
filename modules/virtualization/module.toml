@@ -1,0 +1,23 @@
+[module]
+id = "lnos-virtualization"
+version = "1.0.0"
+name = "LNOS Virtualization Module"
+description = "KVM, QEMU, libvirt, virt-manager"
+license = "MIT"
+author = "LNOS Team"
+
+[dependencies]
+modules = ["lnos-base"]
+packages = [
+    "qemu-base",
+    "qemu-desktop",
+    "libvirt",
+    "virt-manager",
+    "virt-viewer",
+    "edk2-ovmf",
+    "dnsmasq",
+    "swtpm",
+]
+
+[arch]
+supported = ["x86_64"]

@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Enable NetworkManager
+systemctl enable NetworkManager.service
+systemctl enable systemd-resolved.service
+
+# Configure systemd-resolved
+cat > /etc/resolv.conf << 'EOF'
+nameserver 1.1.1.1
+nameserver 8.8.8.8
+EOF
+
+echo "Network module configured"

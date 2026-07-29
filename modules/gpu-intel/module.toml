@@ -1,0 +1,25 @@
+[module]
+id = "lnos-gpu-intel"
+version = "1.0.0"
+name = "LNOS Intel GPU Drivers"
+description = "Intel GPU drivers: Mesa Iris/ANV, VA-API, Vulkan"
+license = "MIT"
+author = "LNOS Team"
+
+[dependencies]
+modules = ["lnos-base"]
+packages = [
+    "mesa",
+    "lib32-mesa",
+    "vulkan-intel",
+    "lib32-vulkan-intel",
+    "intel-media-driver",
+    "libva",
+    "lib32-libva",
+    "libva-utils",
+    "vulkan-icd-loader",
+    "lib32-vulkan-icd-loader",
+]
+
+[arch]
+supported = ["x86_64"]

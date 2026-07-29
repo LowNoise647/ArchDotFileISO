@@ -1,0 +1,13 @@
+target/
+out/
+*.iso
+*.iso.asc
+*.iso.sha256
+*.tar.gz
+pkg/*/*.pkg.tar.*
+**/__pycache__/
+*.swp
+*.swo
+*~
+.DS_Store
+*.bak

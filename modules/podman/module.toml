@@ -1,0 +1,19 @@
+[module]
+id = "lnos-podman"
+version = "1.0.0"
+name = "LNOS Podman Module"
+description = "Podman, podman-compose, buildah"
+license = "MIT"
+author = "LNOS Team"
+
+[dependencies]
+modules = ["lnos-dev"]
+packages = [
+    "podman",
+    "podman-compose",
+    "buildah",
+    "skopeo",
+]
+
+[arch]
+supported = ["x86_64"]

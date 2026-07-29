@@ -1,0 +1,15 @@
+[package]
+name = "lnos-config"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+liblnos = { path = "../liblnos" }
+clap = { version = "4", features = ["derive"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+toml = "0.8"
+tracing = "0.1"
+zbus = { version = "4", features = ["tokio"] }
+tokio = { version = "1", features = ["full"] }

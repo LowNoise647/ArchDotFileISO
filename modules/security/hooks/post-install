@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Enable AppArmor
+systemctl enable apparmor.service
+
+# Enable nftables
+systemctl enable nftables.service
+
+# Apply nftables rules
+cp /usr/share/lnos/modules/security/files/nftables.conf /etc/nftables.conf
+systemctl restart nftables.service
+
+# Configure AppArmor
+aa-enabled || true
+
+echo "Security module configured: AppArmor + nftables active"

@@ -1,0 +1,25 @@
+[module]
+id = "lnos-gpu-amd"
+version = "1.0.0"
+name = "LNOS AMD GPU Drivers"
+description = "AMD GPU drivers: Mesa RadeonSI/RADV, VA-API, ROCm"
+license = "MIT"
+author = "LNOS Team"
+
+[dependencies]
+modules = ["lnos-base"]
+packages = [
+    "mesa",
+    "lib32-mesa",
+    "vulkan-radeon",
+    "lib32-vulkan-radeon",
+    "libva-mesa-driver",
+    "lib32-libva-mesa-driver",
+    "mesa-vdpau",
+    "lib32-mesa-vdpau",
+    "rocm-opencl-runtime",
+    "rocm-hip-runtime",
+]
+
+[arch]
+supported = ["x86_64"]

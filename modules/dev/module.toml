@@ -1,0 +1,30 @@
+[module]
+id = "lnos-dev"
+version = "1.0.0"
+name = "LNOS Development Module"
+description = "Toolchains, compilers, git, containers"
+license = "MIT"
+author = "LNOS Team"
+
+[dependencies]
+modules = ["lnos-base"]
+packages = [
+    "git",
+    "base-devel",
+    "cmake",
+    "make",
+    "gcc",
+    "clang",
+    "lld",
+    "llvm",
+    "python",
+    "python-pip",
+    "python-setuptools",
+    "nodejs",
+    "npm",
+    "rust",
+    "cargo",
+]
+
+[arch]
+supported = ["x86_64"]

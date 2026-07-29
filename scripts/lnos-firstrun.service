@@ -1,0 +1,14 @@
+[Unit]
+Description=LNOS First Run Hardware Detection and Optimization
+Documentation=https://lnos.dev/docs/firstrun
+ConditionPathExists=!/var/lib/lnos/firstrun-done
+After=network.target local-fs.target systemd-udevd.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/lnos/firstrun/lnos-firstrun.sh
+RemainAfterExit=yes
+StandardOutput=journal+console
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,23 @@
+# Maintainer: LNOS Team <dev@lnos.dev>
+pkgname=lnos-mod
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="LNOS Module Manager - CLI tool for managing LNOS modules"
+arch=('x86_64')
+url="https://lnos.dev"
+license=('MIT')
+depends=('glibc' 'gcc-libs')
+makedepends=('cargo')
+source=("$pkgname-$pkgver.tar.gz")
+sha256sums=('SKIP')
+
+build() {
+    cd "$srcdir/$pkgname-$pkgver"
+    cargo build --release --frozen
+}
+
+package() {
+    cd "$srcdir/$pkgname-$pkgver"
+    install -Dm755 target/release/lnos-mod "$pkgdir/usr/bin/lnos-mod"
+    install -Dm644 README.md "$pkgdir/usr/share/doc/lnos-mod/README.md"
+}

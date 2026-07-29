@@ -1,0 +1,39 @@
+[module]
+id = "lnos-base"
+version = "1.0.0"
+name = "LNOS Base System"
+description = "Minimum system: kernel, systemd, firmware, shell"
+license = "MIT"
+author = "LNOS Team"
+
+[dependencies]
+modules = []
+packages = [
+    "base",
+    "base-devel",
+    "linux",
+    "linux-firmware",
+    "systemd",
+    "systemd-libs",
+    "bash",
+    "coreutils",
+    "findutils",
+    "grep",
+    "sed",
+    "gawk",
+    "pacman",
+    "sudo",
+]
+
+[conflicts]
+modules = []
+packages = []
+
+[config]
+system.hostname = "lnos"
+system.locale = "en_US.UTF-8"
+system.timezone = "UTC"
+system.keymap = "us"
+
+[arch]
+supported = ["x86_64"]

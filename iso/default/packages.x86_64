@@ -1,0 +1,55 @@
+# LNOS Base Packages
+base
+base-devel
+linux
+linux-firmware
+linux-headers
+systemd
+systemd-libs
+bash
+coreutils
+findutils
+grep
+sed
+gawk
+pacman
+sudo
+which
+
+# Networking
+networkmanager
+iwd
+dhcpcd
+openssh
+
+# Storage
+btrfs-progs
+cryptsetup
+lvm2
+ntfs-3g
+dosfstools
+exfatprogs
+
+# Bootloader
+efibootmgr
+grub
+os-prober
+
+# Microcode
+intel-ucode
+amd-ucode
+
+# Filesystem tools
+curl
+wget
+git
+vim
+nano
+htop
+man-db
+man-pages
+texinfo
+
+# LNOS tools
+lnos-mod
+lnos-config

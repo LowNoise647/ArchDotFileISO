@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# AMD GPU optimization
+cat > /etc/modprobe.d/amdgpu.conf << 'EOF'
+options amdgpu si_support=1
+options amdgpu cik_support=1
+options amdgpu gpu_recovery=1
+options amdgpu dc=1
+options amdgpu audio=1
+EOF
+
+echo "AMD GPU optimized"

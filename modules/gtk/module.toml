@@ -1,0 +1,23 @@
+[module]
+id = "lnos-gtk"
+version = "1.0.0"
+name = "LNOS GTK Module"
+description = "GTK3/4 with theme, icons, cursors"
+license = "MIT"
+author = "LNOS Team"
+
+[dependencies]
+modules = ["lnos-hyprland", "lnos-fonts"]
+packages = [
+    "gtk3",
+    "gtk4",
+    "libadwaita",
+    "papirus-icon-theme",
+    "adwaita-icon-theme",
+    "catppuccin-gtk-theme-mocha",
+    "catppuccin-gtk-theme-latte",
+    "bibata-cursor-theme",
+]
+
+[arch]
+supported = ["x86_64"]

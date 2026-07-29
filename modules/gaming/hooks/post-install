@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Enable GameMode
+systemctl enable gamemoded.service
+
+# Configure GameMode
+cat > /etc/gamemode.ini << 'EOF'
+[general]
+reaper_freq=5
+defaultgov=performance
+ignore_prefixes=gamemode
+
+[gpu]
+apply_gpu_optimisations=accept-responsibility
+gpu_device=0
+amd_performance_level=high
+nv_powermizer_mode=1
+
+[cpu]
+gov=performance
+energy_performance_preference=performance
+scaling_governor=performance
+
+[supervisor]
+supervisor_whitelist=
+
+[filter]
+; Whitelist of applications to not apply GameMode to
+EOF
+
+# MangoHud config
+mkdir -p /etc/mangohud
+cat > /etc/mangohud/MangoHud.conf << 'EOF'
+fps_limit=0
+fps_limit_method=late
+fps_color_change
+fps_value=60
+fps_color_red=1.0,0.0,0.0
+fps_color_green=0.0,1.0,0.0
+fps_color_yellow=1.0,1.0,0.0
+no_display=0
+hud=0
+gpu_stats
+gpu_temp
+gpu_core_clock
+gpu_mem_clock
+gpu_power
+cpu_stats
+cpu_temp
+cpu_power
+vram
+ram
+procmem
+battery
+io_stats
+fps
+frame_timing=0
+histogram
+arch
+engine_version
+vulkan_driver
+wine
+game_mode
+EOF
+
+echo "Gaming module configured"

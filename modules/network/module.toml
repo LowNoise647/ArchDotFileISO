@@ -1,0 +1,20 @@
+[module]
+id = "lnos-network"
+version = "1.0.0"
+name = "LNOS Network Module"
+description = "NetworkManager, iwd, dhcpcd, DNS config"
+license = "MIT"
+author = "LNOS Team"
+
+[dependencies]
+modules = ["lnos-base"]
+packages = [
+    "networkmanager",
+    "networkmanager-openvpn",
+    "iwd",
+    "dhcpcd",
+    "systemd-resolvconf",
+]
+
+[arch]
+supported = ["x86_64"]

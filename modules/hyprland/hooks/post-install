@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "Configuring Hyprland desktop..."
+
+# Create config directories
+mkdir -p /etc/skel/.config/hypr/monitors
+mkdir -p /etc/skel/.config/hypr/binds
+mkdir -p /etc/skel/.config/hypr/themes
+mkdir -p /etc/skel/.config/hypr/windowrules
+mkdir -p /etc/skel/.config/waybar
+mkdir -p /etc/skel/.config/rofi/themes
+mkdir -p /etc/skel/.config/rofi/scripts
+mkdir -p /etc/skel/.config/kitty
+mkdir -p /etc/skel/.config/foot
+mkdir -p /etc/skel/.config/dunst
+mkdir -p /etc/skel/.config/fastfetch
+mkdir -p /etc/skel/.config/hyprpaper
+
+# Copy configurations
+cp /usr/share/lnos/modules/hyprland/files/hyprland.conf /etc/skel/.config/hypr/
+cp /usr/share/lnos/modules/hyprland/files/waybar/* /etc/skel/.config/waybar/
+cp /usr/share/lnos/modules/hyprland/files/rofi/* /etc/skel/.config/rofi/
+cp /usr/share/lnos/modules/hyprland/files/kitty/* /etc/skel/.config/kitty/
+cp /usr/share/lnos/modules/hyprland/files/foot/* /etc/skel/.config/foot/
+cp /usr/share/lnos/modules/hyprland/files/dunst/* /etc/skel/.config/dunst/
+
+# Default monitor config
+cat > /etc/skel/.config/hypr/monitors/single-eDP.conf << 'MONEOF'
+monitor = eDP-1, 1920x1080@60, 0x0, 1
+MONEOF
+
+# Default binds
+cat > /etc/skel/.config/hypr/binds/default.conf << 'BINDSEOF'
+$mainMod = SUPER
+
+bind = $mainMod, H, movefocus, l
+bind = $mainMod, L, movefocus, r
+bind = $mainMod, K, movefocus, u
+bind = $mainMod, J, movefocus, d
+
+bind = $mainMod, Q, killactive,
+bind = $mainMod, F, fullscreen,
+bind = $mainMod, T, togglefloating,
+bind = $mainMod, M, layoutmsg, swapwithmaster master
+
+bind = $mainMod, 1, workspace, 1
+bind = $mainMod, 2, workspace, 2
+bind = $mainMod, 3, workspace, 3
+bind = $mainMod, 4, workspace, 4
+bind = $mainMod, 5, workspace, 5
+bind = $mainMod, 6, workspace, 6
+bind = $mainMod, 7, workspace, 7
+bind = $mainMod, 8, workspace, 8
+bind = $mainMod, 9, workspace, 9
+bind = $mainMod, 0, workspace, 10
+
+bind = $mainMod SHIFT, 1, movetoworkspacesilent, 1
+bind = $mainMod SHIFT, 2, movetoworkspacesilent, 2
+bind = $mainMod SHIFT, 3, movetoworkspacesilent, 3
+bind = $mainMod SHIFT, 4, movetoworkspacesilent, 4
+bind = $mainMod SHIFT, 5, movetoworkspacesilent, 5
+
+bind = $mainMod, D, exec, rofi -show drun
+bind = $mainMod, Return, exec, kitty
+bind = $mainMod SHIFT, Return, exec, foot
+bind = $mainMod, space, exec, rofi -show window
+bind = $mainMod, Escape, exec, ~/.config/rofi/powermenu.sh
+bind = $mainMod, period, exec, rofi -modi emoji -show emoji
+bind = $mainMod, V, exec, cliphist list | rofi -dmenu -p Clipboard | cliphist decode | wl-copy
+bind = , Print, exec, grimblast copysave area
+
+bind = $mainMod, l, exec, hyprlock
+bind = $mainMod CTRL, l, exec, loginctl lock-session
+BINDSEOF
+
+echo "Hyprland configuration deployed to /etc/skel"

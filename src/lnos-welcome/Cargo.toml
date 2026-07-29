@@ -1,0 +1,11 @@
+[package]
+name = "lnos-welcome"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+liblnos = { path = "../liblnos" }
+clap = { version = "4", features = ["derive"] }
+tokio = { version = "1", features = ["full"] }
+tracing = "0.1"

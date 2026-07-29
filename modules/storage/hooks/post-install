@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Enable fstrim for SSD/NVMe
+systemctl enable fstrim.timer
+
+# Timeshift default config
+mkdir -p /etc/timeshift
+cat > /etc/timeshift/timeshift.json << 'EOF'
+{
+  "backup_device_uuid": "",
+  "schedule_monthly": "true",
+  "count_monthly": "3",
+  "schedule_weekly": "true",
+  "count_weekly": "4",
+  "schedule_daily": "true",
+  "count_daily": "7",
+  "schedule_hourly": "true",
+  "count_hourly": "5",
+  "schedule_boot": "true",
+  "count_boot": "5",
+  "exclude": [
+    "/var/log/**",
+    "/var/cache/**",
+    "/tmp/**",
+    "/var/lib/docker/**",
+    "/home/*/.cache/**",
+    "/home/*/.steam/**",
+    "/proc/**", "/sys/**", "/dev/**", "/run/**"
+  ]
+}
+EOF
+
+echo "Storage module configured: Btrfs + Timeshift ready"

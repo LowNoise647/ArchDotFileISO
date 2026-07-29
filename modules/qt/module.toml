@@ -1,0 +1,21 @@
+[module]
+id = "lnos-qt"
+version = "1.0.0"
+name = "LNOS Qt Module"
+description = "Qt5/6 with theme, Wayland integration"
+license = "MIT"
+author = "LNOS Team"
+
+[dependencies]
+modules = ["lnos-hyprland"]
+packages = [
+    "qt5-base",
+    "qt6-base",
+    "qt5-wayland",
+    "qt6-wayland",
+    "kvantum",
+    "qt6ct",
+]
+
+[arch]
+supported = ["x86_64"]

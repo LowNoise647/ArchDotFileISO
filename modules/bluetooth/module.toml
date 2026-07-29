@@ -1,0 +1,20 @@
+[module]
+id = "lnos-bluetooth"
+version = "1.0.0"
+name = "LNOS Bluetooth Module"
+description = "BlueZ, bluetoothctl, blueman"
+license = "MIT"
+author = "LNOS Team"
+
+[dependencies]
+modules = ["lnos-base"]
+packages = [
+    "bluez",
+    "bluez-utils",
+    "blueman",
+    "pipewire-codec-ldac",
+    "pipewire-codec-aptx",
+]
+
+[arch]
+supported = ["x86_64"]

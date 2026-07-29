@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Enable PipeWire services (user-level)
+systemctl --global enable pipewire.service
+systemctl --global enable pipewire-pulse.service
+systemctl --global enable wireplumber.service
+
+# Create PipeWire config
+mkdir -p /etc/pipewire
+cp /usr/share/pipewire/pipewire.conf /etc/pipewire/ 2>/dev/null || true
+
+echo "Audio module configured: PipeWire + WirePlumber enabled"

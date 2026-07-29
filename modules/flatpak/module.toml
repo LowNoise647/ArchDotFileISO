@@ -1,0 +1,19 @@
+[module]
+id = "lnos-flatpak"
+version = "1.0.0"
+name = "LNOS Flatpak Module"
+description = "Flatpak, Flathub, flatpak-builder"
+license = "MIT"
+author = "LNOS Team"
+
+[dependencies]
+modules = ["lnos-base"]
+packages = [
+    "flatpak",
+    "flatpak-builder",
+    "xdg-desktop-portal",
+    "xdg-desktop-portal-gtk",
+]
+
+[arch]
+supported = ["x86_64"]

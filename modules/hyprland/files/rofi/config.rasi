@@ -1,0 +1,9 @@
+configuration {
+    modi: "drun,run,window,ssh,combi";
+    show-icons: true;
+    icon-theme: "Papirus-Dark";
+    drun-display-format: "{name}";
+    font: "JetBrains Mono 12";
+    terminal: "kitty";
+}
+@theme "~/.config/rofi/themes/catppuccin-mocha.rasi"

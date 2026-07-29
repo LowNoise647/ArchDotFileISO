@@ -1,0 +1,23 @@
+[module]
+id = "lnos-printing"
+version = "1.0.0"
+name = "LNOS Printing Module"
+description = "CUPS, printer drivers, avahi"
+license = "MIT"
+author = "LNOS Team"
+
+[dependencies]
+modules = ["lnos-base"]
+packages = [
+    "cups",
+    "cups-filters",
+    "cups-pdf",
+    "gutenprint",
+    "hplip",
+    "avahi",
+    "nss-mdns",
+    "system-config-printer",
+]
+
+[arch]
+supported = ["x86_64"]

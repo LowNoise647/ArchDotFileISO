@@ -1,0 +1,19 @@
+[module]
+id = "lnos-cloud"
+version = "1.0.0"
+name = "LNOS Cloud Module"
+description = "Nextcloud client, rclone, cloud sync"
+license = "MIT"
+author = "LNOS Team"
+
+[dependencies]
+modules = ["lnos-base"]
+packages = [
+    "rclone",
+    "fuse3",
+    "nextcloud-client",
+    "syncthing",
+]
+
+[arch]
+supported = ["x86_64"]

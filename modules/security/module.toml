@@ -1,0 +1,22 @@
+[module]
+id = "lnos-security"
+version = "1.0.0"
+name = "LNOS Security Module"
+description = "AppArmor, nftables, firewalld, fail2ban"
+license = "MIT"
+author = "LNOS Team"
+
+[dependencies]
+modules = ["lnos-base"]
+packages = [
+    "apparmor",
+    "apparmor-profiles",
+    "nftables",
+    "firewalld",
+    "fail2ban",
+    "audit",
+    "aide",
+]
+
+[arch]
+supported = ["x86_64"]
