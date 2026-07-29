@@ -1,7 +1,7 @@
 pub mod config;
-pub mod module;
 pub mod dbus;
 pub mod i18n;
+pub mod module;
 
 use serde::{Deserialize, Serialize};
 use std::path::PathBuf;

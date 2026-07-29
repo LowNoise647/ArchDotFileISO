@@ -9,14 +9,32 @@ impl I18n {
     pub fn new() -> Self {
         let mut translations = HashMap::new();
         let mut en = HashMap::new();
-        en.insert("module.install.success".to_string(), "Module {0} installed successfully".to_string());
-        en.insert("module.remove.success".to_string(), "Module {0} removed successfully".to_string());
-        en.insert("error.not_found".to_string(), "Module not found: {0}".to_string());
+        en.insert(
+            "module.install.success".to_string(),
+            "Module {0} installed successfully".to_string(),
+        );
+        en.insert(
+            "module.remove.success".to_string(),
+            "Module {0} removed successfully".to_string(),
+        );
+        en.insert(
+            "error.not_found".to_string(),
+            "Module not found: {0}".to_string(),
+        );
 
         let mut es = HashMap::new();
-        es.insert("module.install.success".to_string(), "Módulo {0} instalado correctamente".to_string());
-        es.insert("module.remove.success".to_string(), "Módulo {0} eliminado correctamente".to_string());
-        es.insert("error.not_found".to_string(), "Módulo no encontrado: {0}".to_string());
+        es.insert(
+            "module.install.success".to_string(),
+            "Módulo {0} instalado correctamente".to_string(),
+        );
+        es.insert(
+            "module.remove.success".to_string(),
+            "Módulo {0} eliminado correctamente".to_string(),
+        );
+        es.insert(
+            "error.not_found".to_string(),
+            "Módulo no encontrado: {0}".to_string(),
+        );
 
         translations.insert("en".to_string(), en);
         translations.insert("es".to_string(), es);
@@ -32,11 +50,14 @@ impl I18n {
     }
 
     pub fn translate(&self, key: &str, args: &[&str]) -> String {
-        let lang_map = self.translations.get(&self.current_lang)
+        let lang_map = self
+            .translations
+            .get(&self.current_lang)
             .or_else(|| self.translations.get("en"))
             .unwrap();
 
-        let template = lang_map.get(key)
+        let template = lang_map
+            .get(key)
             .or_else(|| self.translations.get("en").unwrap().get(key))
             .map(|s| s.clone())
             .unwrap_or_else(|| key.to_string());

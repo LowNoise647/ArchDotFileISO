@@ -115,7 +115,9 @@ impl ModuleManager {
     }
 
     pub fn get_module(&self, id: &str) -> Result<&Module, ModuleError> {
-        self.modules.get(id).ok_or_else(|| ModuleError::NotFound(id.to_string()))
+        self.modules
+            .get(id)
+            .ok_or_else(|| ModuleError::NotFound(id.to_string()))
     }
 
     pub fn list_modules(&self) -> Vec<&Module> {
@@ -123,9 +125,15 @@ impl ModuleManager {
     }
 
     pub fn list_installed(&self) -> Vec<&Module> {
-        self.modules.values().filter(|m| {
-            matches!(m.status, ModuleStatus::Installed | ModuleStatus::Configured | ModuleStatus::Disabled)
-        }).collect()
+        self.modules
+            .values()
+            .filter(|m| {
+                matches!(
+                    m.status,
+                    ModuleStatus::Installed | ModuleStatus::Configured | ModuleStatus::Disabled
+                )
+            })
+            .collect()
     }
 
     fn detect_status(&self, id: &str) -> ModuleStatus {
@@ -191,9 +199,10 @@ impl ModuleManager {
                     if let Some(ref conflict_mods) = conflicts.modules {
                         for conflict in conflict_mods {
                             if self.modules.contains_key(conflict) {
-                                return Err(ModuleError::Conflict(
-                                    format!("{} conflicts with {}", id, conflict)
-                                ));
+                                return Err(ModuleError::Conflict(format!(
+                                    "{} conflicts with {}",
+                                    id, conflict
+                                )));
                             }
                         }
                     }
@@ -255,9 +264,11 @@ impl ModuleManager {
                 .map_err(|e| ModuleError::HookFailed(format!("Cannot execute {}: {}", name, e)))?;
 
             if !status.success() {
-                return Err(ModuleError::HookFailed(
-                    format!("Hook {} exited with code {:?}", name, status.code())
-                ));
+                return Err(ModuleError::HookFailed(format!(
+                    "Hook {} exited with code {:?}",
+                    name,
+                    status.code()
+                )));
             }
         }
         Ok(())
@@ -265,13 +276,19 @@ impl ModuleManager {
 
     fn set_status(&self, id: &str, status: ModuleStatus) -> Result<(), ModuleError> {
         let status_file = self.state_dir.join(format!("{}.status", id));
-        std::fs::write(&status_file, format!("{}\n", match status {
-            ModuleStatus::Installed => "installed",
-            ModuleStatus::Configured => "configured",
-            ModuleStatus::Disabled => "disabled",
-            ModuleStatus::Broken => "broken",
-            _ => "available",
-        }))?;
+        std::fs::write(
+            &status_file,
+            format!(
+                "{}\n",
+                match status {
+                    ModuleStatus::Installed => "installed",
+                    ModuleStatus::Configured => "configured",
+                    ModuleStatus::Disabled => "disabled",
+                    ModuleStatus::Broken => "broken",
+                    _ => "available",
+                }
+            ),
+        )?;
         Ok(())
     }
 }

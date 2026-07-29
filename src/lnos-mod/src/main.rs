@@ -11,8 +11,16 @@ async fn main() -> anyhow::Result<()> {
     let args = cli::Cli::parse();
     let default = LnosConfig::default();
 
-    let modules_dir: PathBuf = args.modules_dir.clone().map(PathBuf::from).unwrap_or(default.modules_dir);
-    let state_dir: PathBuf = args.state_dir.clone().map(PathBuf::from).unwrap_or(default.state_dir);
+    let modules_dir: PathBuf = args
+        .modules_dir
+        .clone()
+        .map(PathBuf::from)
+        .unwrap_or(default.modules_dir);
+    let state_dir: PathBuf = args
+        .state_dir
+        .clone()
+        .map(PathBuf::from)
+        .unwrap_or(default.state_dir);
 
     std::fs::create_dir_all(&state_dir)?;
     std::fs::create_dir_all(&modules_dir)?;
@@ -28,7 +36,12 @@ async fn main() -> anyhow::Result<()> {
                 manager.list_modules()
             };
             for module in modules {
-                println!("{:20} {:10} {}", module.manifest.module.id, module.manifest.module.version, module.manifest.module.name);
+                println!(
+                    "{:20} {:10} {}",
+                    module.manifest.module.id,
+                    module.manifest.module.version,
+                    module.manifest.module.name
+                );
             }
         }
         cli::Commands::Info { id } => {
