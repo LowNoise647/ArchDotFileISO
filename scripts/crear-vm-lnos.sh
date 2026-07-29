@@ -317,7 +317,7 @@ post_creation() {
         echo ""
         echo "    O usa el instalador automatizado de LNOS:"
         echo "    Una vez dentro de Arch Linux, ejecuta:"
-        echo "      bash <(curl -sL https://lnos.dev/install.sh)"
+        echo "      bash <(curl -sL https://raw.githubusercontent.com/LowNoise647/ArchDotFileISO/main/scripts/install-lnos.sh)"
     fi
     echo ""
     echo "  Especificaciones de la VM:"
