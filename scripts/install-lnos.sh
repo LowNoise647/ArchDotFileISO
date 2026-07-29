@@ -8,6 +8,8 @@ LNOS_HOSTNAME="${LNOS_HOSTNAME:-lnos}"
 LNOS_USER="${LNOS_USER:-user}"
 LNOS_PASSWORD="${LNOS_PASSWORD:-lnos}"
 LNOS_DISK="${LNOS_DISK:-/dev/vda}"
+LNOS_PARTITION="${LNOS_PARTITION:-}"       # Ej: /dev/vda2 (si ya existe, se salta particionado)
+LNOS_ESP_PARTITION="${LNOS_ESP_PARTITION:-}" # Ej: /dev/vda1 (ESP existente)
 LNOS_TIMEZONE="${LNOS_TIMEZONE:-Europe/Madrid}"
 LNOS_LOCALE="${LNOS_LOCALE:-en_US.UTF-8}"
 LNOS_KEYMAP="${LNOS_KEYMAP:-us}"
@@ -15,23 +17,34 @@ LNOS_KEYMAP="${LNOS_KEYMAP:-us}"
 log() { echo "[LNOS-INSTALL] $*"; }
 
 log "=== LNOS Automated Installation ==="
-log "Target disk: ${LNOS_DISK}"
 
-# 1. Partition disk (UEFI + Btrfs)
-log "Partitioning disk..."
-parted -s "${LNOS_DISK}" mklabel gpt
-parted -s "${LNOS_DISK}" mkpart primary fat32 1MiB 512MiB
-parted -s "${LNOS_DISK}" set 1 esp on
-parted -s "${LNOS_DISK}" mkpart primary 512MiB 100%
+if [ -n "${LNOS_PARTITION}" ]; then
+    log "Using existing partition: ${LNOS_PARTITION}"
+    ROOT_PART="${LNOS_PARTITION}"
+    [ -n "${LNOS_ESP_PARTITION}" ] && ESP_PART="${LNOS_ESP_PARTITION}"
+    # Solo formatear la partición root
+    log "Formatting ${ROOT_PART} as Btrfs..."
+    mkfs.btrfs -f "${ROOT_PART}"
+else
+    log "Target disk: ${LNOS_DISK}"
+    # 1. Partition disk (UEFI + Btrfs)
+    log "Partitioning disk..."
+    parted -s "${LNOS_DISK}" mklabel gpt
+    parted -s "${LNOS_DISK}" mkpart primary fat32 1MiB 512MiB
+    parted -s "${LNOS_DISK}" set 1 esp on
+    parted -s "${LNOS_DISK}" mkpart primary 512MiB 100%
 
-# 2. Format partitions
-log "Formatting partitions..."
-mkfs.fat -F32 "${LNOS_DISK}1"
-mkfs.btrfs -f "${LNOS_DISK}2"
+    # 2. Format partitions
+    log "Formatting partitions..."
+    mkfs.fat -F32 "${LNOS_DISK}1"
+    mkfs.btrfs -f "${LNOS_DISK}2"
+    ESP_PART="${LNOS_DISK}1"
+    ROOT_PART="${LNOS_DISK}2"
+fi
 
 # 3. Create Btrfs subvolumes (Section 81.3)
 log "Creating Btrfs subvolumes..."
-mount "${LNOS_DISK}2" /mnt
+mount "${ROOT_PART}" /mnt
 btrfs subvolume create /mnt/@
 btrfs subvolume create /mnt/@home
 btrfs subvolume create /mnt/@snapshots
@@ -42,14 +55,14 @@ umount /mnt
 
 # 4. Mount subvolumes
 log "Mounting subvolumes..."
-mount -o subvol=@,compress=zstd:1 "${LNOS_DISK}2" /mnt
+mount -o subvol=@,compress=zstd:1 "${ROOT_PART}" /mnt
 mkdir -p /mnt/{home,.snapshots,var/log,var/cache,tmp,boot}
-mount -o subvol=@home,compress=zstd:1 "${LNOS_DISK}2" /mnt/home
-mount -o subvol=@snapshots,compress=zstd:3 "${LNOS_DISK}2" /mnt/.snapshots
-mount -o subvol=@log,nodatacow "${LNOS_DISK}2" /mnt/var/log
-mount -o subvol=@cache,nodatacow "${LNOS_DISK}2" /mnt/var/cache
-mount -o subvol=@tmp,nodatacow "${LNOS_DISK}2" /mnt/tmp
-mount "${LNOS_DISK}1" /mnt/boot
+mount -o subvol=@home,compress=zstd:1 "${ROOT_PART}" /mnt/home
+mount -o subvol=@snapshots,compress=zstd:3 "${ROOT_PART}" /mnt/.snapshots
+mount -o subvol=@log,nodatacow "${ROOT_PART}" /mnt/var/log
+mount -o subvol=@cache,nodatacow "${ROOT_PART}" /mnt/var/cache
+mount -o subvol=@tmp,nodatacow "${ROOT_PART}" /mnt/tmp
+mount "${ESP_PART}" /mnt/boot
 
 # 5. Install base system
 log "Installing base system..."
@@ -64,6 +77,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 
 # 7. Chroot configuration
 log "Configuring system..."
+export LNOS_TIMEZONE LNOS_LOCALE LNOS_KEYMAP LNOS_HOSTNAME LNOS_PASSWORD LNOS_USER ROOT_PART ESP_PART
 arch-chroot /mnt /bin/bash <<'CHROOT'
 set -euo pipefail
 
@@ -79,7 +93,7 @@ echo "KEYMAP=${LNOS_KEYMAP}" > /etc/vconsole.conf
 
 # Hostname
 echo "${LNOS_HOSTNAME}" > /etc/hostname
-cat >> /etc/hosts << 'HOSTS'
+cat >> /etc/hosts << HOSTS
 127.0.0.1   localhost
 ::1         localhost
 127.0.1.1   ${LNOS_HOSTNAME}.local ${LNOS_HOSTNAME}
@@ -97,15 +111,15 @@ echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/wheel
 
 # Bootloader (systemd-boot)
 bootctl install
-cat > /boot/loader/loader.conf << 'LOADER'
+cat > /boot/loader/loader.conf << LOADER
 default lnos
 timeout 5
 console-mode max
 editor no
 LOADER
 
-ROOT_UUID=$(blkid -s UUID -o value ${LNOS_DISK}2)
-cat > /boot/loader/entries/lnos.conf << 'ENTRY'
+ROOT_UUID=$(blkid -s UUID -o value ${ROOT_PART})
+cat > /boot/loader/entries/lnos.conf << ENTRY
 title   LNOS
 linux   /vmlinuz-linux
 initrd  /intel-ucode.img
